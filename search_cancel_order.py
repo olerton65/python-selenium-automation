@@ -1,33 +1,33 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium import webdriver
 from selenium.webdriver.common.by import By
+from behave import given, when, then
 from time import sleep
-from selenium.webdriver.support import expected_conditions as EC
 
+SEARCH_INPUT = (By.XPATH, "//input[@type='search' and @name='help_keywords']")
+SEARCH_SUBMIT = (By.XPATH, "//input[@class='a-button-input' and @type='submit']")
+RESULTS_FOUND_MESSAGE = (By.XPATH, "//div[@class='help-content']/h1")
 
-driver = webdriver.Chrome()
+@given('Open Amazon page1')
+def open_google(context):
+    context.driver.get('https://www.amazon.com')
 
-driver.get('https://www.amazon.com')
+@given('Open Help page1')
+def open_google(context):
+    context.driver.get('https://www.amazon.com/gp/help/customer/display.html')
 
-sleep(1)
+@when('Input {search_word} into search field1')
+def input_search(context, search_word):
+    search = context.driver.find_element(*SEARCH_INPUT)
+    search.clear()
+    search.send_keys(search_word)
+    sleep(4)
 
-driver.find_element(By.XPATH, "//a[@id='nav-hamburger-menu']/i").click()
+@when('Click on search icon1')
+def click_search_icon(context):
+    context.driver.find_element(*SEARCH_SUBMIT).click()
+    sleep(1)
 
-try:
-    element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//a[@href='/gp/help/customer/display.html?nodeId=508510&ref_=nav_em_T1_0_1_0_5_cs_help']")))
-    element.click()
-
-    element = driver.find_element(By.XPATH, "//input[@type='search' and @name='help_keywords']")
-    element.clear()
-    element.send_keys('cancel order')
-    element = driver.find_element(By.XPATH, "//input[@class='a-button-input' and @type='submit']")
-    element.click()
-
-    assert 'Cancel Items or Orders' in driver.find_element(By.XPATH, "//div[@class='help-content']/h1").text
-
-finally:
-    driver.quit()
-
-
-
-
+@then('Product results for {search_word} are shown1')
+def verify_found_results_text(context, search_word):
+    results_msg = context.driver.find_element(*RESULTS_FOUND_MESSAGE).text
+    assert search_word in results_msg, "Expected word '{}' in message, but got '{}'".format(search_word,
+                                                                                                results_msg)
