@@ -1,4 +1,4 @@
-# Created by olegrakityanskiy at 10/19/19
+# Created by olegrakityanskiy at 11/3/19
 Feature: Test for Amazon search functionality
   # Enter feature description here
 
