@@ -16,6 +16,23 @@ def open_amazon(context):
     context.driver.get('https://www.amazon.com')
 
 
+@given('Open Amazon Prime page')
+def open_amazon_prime(context):
+    context.driver.get('https://www.amazon.com/amazonprime')
+
+    # "//div[contains(@class, 'a-section benefit-box ')]"
+
+
+@given('Open Amazon Dress B07JZ9C1HW page')
+def open_amazon_dress(context):
+    context.driver.get('https://www.amazon.com/gp/product/B07JZ9C1HW/?th=1')
+
+
+@given('Open Amazon Jeans B07BKD8JCQ page')
+def open_amazon_jeans(context):
+    context.driver.get('https://www.amazon.com/gp/product/B07BKD8JCQ/')
+
+
 @when('Click on the hamburger menu')
 def click_ham_menu(context):
     context.driver.find_element(*HAM_MENU).click()
@@ -49,6 +66,7 @@ def verify_item_count(context, expected_item_count):
 @then('{expected_item_count} menu items are present')
 def verify_amount_of_items(context, expected_item_count):
     sleep(3)
+
     #   print(len(context.driver.find_elements(*AMAZON_MUSIC_MENU_ITEM_RESULTS)))
 
     actual_item_count = len(context.driver.find_elements(*AMAZON_MUSIC_MENU_ITEM_RESULTS))
@@ -62,6 +80,7 @@ def verify_amount_of_items(context, expected_item_count):
 
 @then('Verify that hamburger menu is present')
 def verify_ham_menu(context):
+
     #   print('FIND ELEMENTS =>>')
     #   print(context.driver.find_elements(*HAM_MENU))
     #   print(type(context.driver.find_elements(*HAM_MENU)))
