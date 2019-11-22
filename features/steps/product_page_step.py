@@ -12,8 +12,7 @@ JEANS_COLOR_OPTIONS = (By.CSS_SELECTOR, "div#variation_color_name li ")
 SELECTED_JEANS_COLORS = (By.CSS_SELECTOR, 'div#variation_color_name span.selection')
 
 
-
-@when('Click Add to the card button')
+@when('Click Add to the cart btn')
 def open_amazon(context):
     context.driver.find_element(*ADD_TO_CART_BUTTON).click()
 
@@ -23,6 +22,8 @@ def close_side_suggestion(context):
     closing_btn = context.driver.find_elements(*CLOSING_X_SIDE_SECTION)
     if len(closing_btn) == 1:
         closing_btn[0].click()
+
+
 #    else:
 #       pass
 
@@ -61,3 +62,8 @@ def verify_jeans_colors(context):
         color_elements[x].click()
         actual_color = context.driver.find_element(*SELECTED_JEANS_COLORS).text
         assert actual_color == expected_colors[x], f'Expected {expected_colors[x]}, but got{actual_color}'
+
+
+@then('Click Add to the cart button')
+def open_amazon(context):
+    context.driver.find_element(*ADD_TO_CART_BUTTON).click()
